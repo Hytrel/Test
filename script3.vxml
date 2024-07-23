@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1">
+    <form id="play_audio">
+        <block>
+            <prompt>
+                <audio src="http://icecast.skyrock.net/s/natio_mp3_128k">
+                    Chargement du flux audio. Veuillez patienter.
+                </audio>
+            </prompt>
+            <goto next="#exit"/>
+        </block>
+    </form>
+
+    <form id="exit">
+        <block>
+            <prompt>
+                Merci d'avoir utilisé notre service vocal interactif. Au revoir.
+            </prompt>
+            <exit/>
+        </block>
+    </form>
+</vxml>
