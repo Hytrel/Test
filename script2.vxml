@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1">
+    <!-- Ligne: cloudivr_0033359251190 -->
+    
+    <var name="lineId" expr="'cloudivr_0033359251190'"/>
+
+    <form id="play_audio">
+        <block>
+            <prompt>
+                <audio src="http://icecast.skyrock.net/s/natio_mp3_128k">
+                    Chargement du flux audio. Veuillez patienter.
+                </audio>
+            </prompt>
+            <goto next="#wait"/>
+        </block>
+    </form>
+
+    <form id="wait">
+        <field name="choice">
+            <prompt>
+                Pour obtenir des informations sur votre compte, appuyez sur 1. Pour parler à un représentant, appuyez sur 2. Pour quitter, appuyez sur 3.
+            </prompt>
+            <grammar>
+                <![CDATA[
+                    <grammar version="1.0" xml:lang="en-US" mode="dtmf" root="mainrule">
+                        <rule id="mainrule" scope="public">
+                            <one-of>
+                                <item>1</item>
+                                <item>2</item>
+                                <item>3</item>
+                            </one-of>
+                        </rule>
+                    </grammar>
+                ]]>
+            </grammar>
+            <filled>
+                <if cond="choice == '1'">
+                    <goto next="#account_info"/>
+                </if>
+                <if cond="choice == '2'">
+                    <goto next="#representative"/>
+                </if>
+                <if cond="choice == '3'">
+                    <goto next="#exit"/>
+                </if>
+            </filled>
+        </field>
+    </form>
+
+    <form id="account_info">
+        <block>
+            <prompt>
+                Vos informations de compte sont les suivantes : [informations de compte ici]. Pour retourner au menu principal, appuyez sur 9.
+            </prompt>
+            <grammar>
+                <![CDATA[
+                    <grammar version="1.0" xml:lang="en-US" mode="dtmf" root="mainrule">
+                        <rule id="mainrule" scope="public">
+                            <one-of>
+                                <item>9</item>
+                            </one-of>
+                        </rule>
+                    </grammar>
+                ]]>
+            </grammar>
+            <filled>
+                <goto next="#wait"/>
+            </filled>
+        </block>
+    </form>
+
+    <form id="representative">
+        <block>
+            <prompt>
+                Un représentant va vous répondre. Veuillez patienter.
+            </prompt>
+            <submit next="http://example.com/connect_to_representative?lineId={lineId}"/>
+        </block>
+    </form>
+
+    <form id="exit">
+        <block>
+            <prompt>
+                Merci d'avoir utilisé notre service vocal interactif. Au revoir.
+            </prompt>
+            <exit/>
+        </block>
+    </form>
+</vxml>
